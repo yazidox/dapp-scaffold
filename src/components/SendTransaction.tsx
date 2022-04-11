@@ -2,6 +2,12 @@ import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { Keypair, SystemProgram, Transaction, TransactionSignature } from '@solana/web3.js';
 import { FC, useCallback } from 'react';
 import { notify } from "../utils/notifications";
+import * as splToken from "@solana/spl-token";
+import { web3, Wallet } from "@project-serum/anchor";
+import { TOKEN_PROGRAM_ID } from '@solana/spl-token'
+import { getOrCreateAssociatedTokenAccount } from '../getOrCreateAssociatedTokenAccount'
+import { createTransferInstruction } from '../createTransferInstructions'
+
 
 export const SendTransaction: FC = () => {
     const { connection } = useConnection();
@@ -35,8 +41,10 @@ export const SendTransaction: FC = () => {
         }
     }, [publicKey, notify, connection, sendTransaction]);
 
+   
     return (
         <div>
+           
             <button
                 className="group w-60 m-2 btn animate-pulse disabled:animate-none bg-gradient-to-r from-[#9945FF] to-[#14F195] hover:from-pink-500 hover:to-yellow-500 ... "
                 onClick={onClick} disabled={!publicKey}
